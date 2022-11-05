@@ -16,18 +16,20 @@ app.post('/character', (request, response) => {
     const name = request.body.name
     const occupationName = request.body.occupation
 
-    if(!nameValidator.isValid(name)) {
-        response.status(400).send({error: 'invalid input: Name'})
+    if (!nameValidator.isValid(name)) {
+        response.status(400).send({ error: 'invalid input: Name' })
     }
 
-    if(!ocuppationValidator.isValid(occupationName)) {
-        response.status(400).send({error: 'invalid input: Occupation'})
+    if (!ocuppationValidator.isValid(occupationName)) {
+        response.status(400).send({ error: 'invalid input: Occupation' })
     }
 
     const newCharacter = {
         id: uuid.v4(),
         name: name,
-        occupation: occupations[occupationName.toLowerCase()]
+        status: 'alive',
+        occupation: occupationName.toLowerCase(),
+        ...occupations[occupationName.toLowerCase()]
     }
 
     db.characters.push(newCharacter)
@@ -36,14 +38,15 @@ app.post('/character', (request, response) => {
 })
 
 app.get('/character', (_, response) => {
-    response.status(200).send(db.characters)
+    const allCharacters = db.characters.map(({ id, name, occupation, status }) => ({ id, name, occupation, status }))
+    response.status(200).send(allCharacters)
 })
 
 app.get('/character/:id', (request, response) => {
     const character = db.characters.find((character) => character.id == request.params.id)
-    
-    if(!character) {
-        response.status(404).send({error: 'Not Found: Character'})
+
+    if (!character) {
+        response.status(404).send({ error: 'Not Found: Character' })
     }
 
     response.status(200).send(character)
