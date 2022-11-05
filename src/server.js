@@ -1,5 +1,5 @@
 const express = require('express')
-const uuid = require('uuid')
+const Character = require('./models/character')
 const app = express()
 
 app.use(express.json())
@@ -11,7 +11,6 @@ const db = {
 app.post('/character', (request, response) => {
     const nameValidator = require('./validators/nameValidator')
     const ocuppationValidator = require('./validators/occupationValidator')
-    const occupations = require('./data/occupations')
 
     const name = request.body.name
     const occupationName = request.body.occupation
@@ -24,17 +23,10 @@ app.post('/character', (request, response) => {
         response.status(400).send({ error: 'invalid input: Occupation' })
     }
 
-    const newCharacter = {
-        id: uuid.v4(),
-        name: name,
-        status: 'alive',
-        occupation: occupationName.toLowerCase(),
-        ...occupations[occupationName.toLowerCase()]
-    }
+    const character = new Character(name, occupationName)
+    db.characters.push(character)
 
-    db.characters.push(newCharacter)
-
-    response.status(201).send(newCharacter)
+    response.status(201).send(character)
 })
 
 app.get('/character', (_, response) => {
