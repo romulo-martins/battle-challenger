@@ -1,4 +1,5 @@
 const express = require('express')
+const uuid = require('uuid')
 const app = express()
 
 app.use(express.json())
@@ -16,14 +17,15 @@ app.post('/character', (request, response) => {
     const occupationName = request.body.occupation
 
     if(!nameValidator.isValid(name)) {
-        response.send(40).send({error: 'invalid input: Name'})
+        response.status(400).send({error: 'invalid input: Name'})
     }
 
     if(!ocuppationValidator.isValid(occupationName)) {
-        response.send(400).send({error: 'invalid input: Occupation'})
+        response.status(400).send({error: 'invalid input: Occupation'})
     }
 
     const newCharacter = {
+        id: uuid.v4(),
         name: name,
         occupation: occupations[occupationName.toLowerCase()]
     }
@@ -35,6 +37,16 @@ app.post('/character', (request, response) => {
 
 app.get('/character', (_, response) => {
     response.status(200).send(db.characters)
+})
+
+app.get('/character/:id', (request, response) => {
+    const character = db.characters.find((character) => character.id == request.params.id)
+    
+    if(!character) {
+        response.status(404).send({error: 'Not Found: Character'})
+    }
+
+    response.status(200).send(character)
 })
 
 app.listen(3000, () => console.log('Listening on port 3000 ...'))
