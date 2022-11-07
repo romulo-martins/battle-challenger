@@ -23,18 +23,30 @@ describe('getFirstPlayer', () => {
         player1.getSpeed = () => 5
 
         const player2 = new Character('Legodas', 'Thief')
-        player2.getSpeed = () => 2
+        player2.getSpeed = () => 1
 
         expect(battleEngine.getFirstPlayer(player1, player2)).toEqual(player1)
     })
 
-    test('player1 should start when this speed is greater', () => {
+    test('player2 should start when this speed is greater', () => {
         const player1 = new Character('Rei_Lagarto', 'Warrior')
-        player1.getSpeed = () => 2
+        player1.getSpeed = () => 1
 
         const player2 = new Character('Legodas', 'Thief')
         player2.getSpeed = () => 5
 
         expect(battleEngine.getFirstPlayer(player1, player2)).toEqual(player2)
+    })
+})
+
+describe('run battle', () => {
+    test('should have the log with all battle steps', () => {
+        const player1 = new Character('Rei_Lagarto', 'Warrior')
+        const player2 = new Character('Legodas', 'Thief')
+
+        battleEngine.run(player1, player2)
+        console.log(battleEngine.getLog())
+
+        expect(battleEngine.getLog().length).toBeGreaterThan(0)
     })
 })

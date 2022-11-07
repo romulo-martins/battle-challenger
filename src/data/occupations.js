@@ -13,7 +13,7 @@ module.exports = {
             },
             speed: {
                 skill: 0.6,
-                inteligence: 0.2
+                intelligence: 0.2
             }
         }
     },
@@ -28,7 +28,7 @@ module.exports = {
             attack: {
                 strength: 0.25,
                 skill: 1,
-                inteligence: 0.25
+                intelligence: 0.25
             },
             speed: {
                 skill: 0.8
@@ -46,7 +46,7 @@ module.exports = {
             attack: {
                 strength: 0.2,
                 skill: 0.5,
-                inteligence: 1.5
+                intelligence: 1.5
             },
             speed: {
                 strength: 0.2,
