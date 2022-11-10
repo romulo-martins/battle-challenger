@@ -15,6 +15,12 @@ npm install
 
 ## How run localy
 
+To start the server
+```bash
+npm start
+```
+
+To run with auto-reload
 ```bash
 npm run dev
 ```
