@@ -1,4 +1,4 @@
-const occupations = require('../data/occupations')
+const occupations = require('../templates/occupations')
 
 function isValid(occupationName) {
     return occupations[occupationName.toLowerCase()] !== undefined

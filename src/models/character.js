@@ -1,4 +1,4 @@
-const occupationsData = require('../data/occupations')
+const occupationsData = require('../templates/occupations')
 const uuid = require('uuid')
 
 class Character {

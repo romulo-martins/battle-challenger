@@ -32,7 +32,7 @@ function getFirstPlayer(player1, player2) {
 }
 
 function run(player1, player2) {
-    log = []
+    log = [] // Clean log data
     let gameState = 'running'
     let currentPlayer = getFirstPlayer(player1, player2)
 

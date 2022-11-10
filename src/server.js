@@ -1,5 +1,4 @@
 const express = require('express')
-const Character = require('./models/character')
 const app = express()
 
 app.use(express.json())
@@ -8,7 +7,8 @@ const db = {
     characters: []
 }
 
-app.post('/character', (request, response) => {
+app.post('/characters', (request, response) => {
+    const Character = require('./models/character')
     const nameValidator = require('./validators/nameValidator')
     const ocuppationValidator = require('./validators/occupationValidator')
 
@@ -29,12 +29,12 @@ app.post('/character', (request, response) => {
     response.status(201).send(character)
 })
 
-app.get('/character', (_, response) => {
+app.get('/characters', (_, response) => {
     const allCharacters = db.characters.map(({ id, name, occupation, status }) => ({ id, name, occupation, status }))
     response.status(200).send(allCharacters)
 })
 
-app.get('/character/:id', (request, response) => {
+app.get('/characters/:id', (request, response) => {
     const character = db.characters.find((character) => character.id == request.params.id)
 
     if (!character) {
@@ -42,6 +42,16 @@ app.get('/character/:id', (request, response) => {
     }
 
     response.status(200).send(character)
+})
+
+app.post('/battle', (request, response) => {
+    const battleEngine = require('./engine/battle')
+    const player1 = db.characters.find((character) => character.id == request.body.player1.id)
+    const player2 = db.characters.find((character) => character.id == request.body.player2.id)
+
+    battleEngine.run(player1, player2)
+
+    response.status(200).send(battleEngine.getLog())
 })
 
 app.listen(3000, () => console.log('Listening on port 3000 ...'))
